@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from time import sleep
 from utils import carga
+from persona import personas, analizar_sentimiento
 
 load_dotenv()
 
@@ -22,15 +23,23 @@ def bot(prompt):
     repeticion = 0
     while True:
         try:
+            personalidad = personas[analizar_sentimiento(prompt)]
             prompt_sistema = f"""
-                        Eres un chatbot de atención al cliente de una e-commerce. No debes
-                        responder preguntas que no sean referentes a los datos del ecommerce 
-                        informado.
+                                # PERSONA
 
-                        Únicamente debes de utilizar los datos que estén dentro del 'contexto'.
+                                Eres un chatbot de atención al cliente de una e-commerce. No debes
+                                responder preguntas que no sean referentes a los datos del ecommerce 
+                                informado.
 
-                        # CONTEXTO
-                        {contexto}"""
+                                Únicamente debes de utilizar los datos que estén dentro del 'contexto'.
+
+                                # CONTEXTO
+                                {contexto}
+
+                                # PERSONALIDAD
+                                {personalidad}
+                             """
+            
             
             configuracion_modelo = {
                 "temperature":0.2,
